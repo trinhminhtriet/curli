@@ -1,4 +1,5 @@
 project_name: curli
+version: 1.0.0
 builds:
   - binary: curli
     env:
