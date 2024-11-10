@@ -1,0 +1,38 @@
+project_name: curli
+builds:
+  - binary: curli
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - darwin
+      - linux
+      - freebsd
+      - windows
+    goarch:
+      - amd64
+      - arm
+      - arm64
+    ignore:
+      - goos: windows
+        goarch: arm64
+release:
+  name_template: "{{.ProjectName}}-v{{.Version}}"
+brews:
+  - tap:
+      owner: trinhminhtriet
+      name: homebrew-tap
+    commit_author:
+      name: Triet Trinh
+      email: contact@trinhminhtriet.com
+    homepage: https://trinhminhtriet.com
+    description: The power of curl, the ease of use of httpie.
+nfpms:
+  - maintainer: Triet Trinh <contact@trinhminhtriet.com>
+    description: A user-friendly curl interface combining HTTPie’s simplicity with curl’s full functionality and power.
+    license: MIT
+    formats:
+      - deb
+      - rpm
+    dependencies:
+      - curl
+    bindir: /usr/bin
