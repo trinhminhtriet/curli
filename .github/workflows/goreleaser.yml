@@ -1,5 +1,5 @@
 name: GoReleaser
-
+version: 2
 on:
   push:
     tags:
