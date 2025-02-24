@@ -1,7 +1,7 @@
 module github.com/trinhminhtriet/curli
 
 require (
-	golang.org/x/crypto v0.33.0
+	golang.org/x/crypto v0.34.0
 	golang.org/x/sys v0.30.0
 )
 
