@@ -27,7 +27,6 @@ var (
 \tVERSION = \"$NEW_VERSION\"
 \tDATE    = \"$BUILD_DATE\"
 )
-
 "
 echo -e "$VERSION_FILE_CONTENT" >internal/version.go
 
@@ -54,4 +53,4 @@ mkdir -p dist
 # GOOS=windows GOARCH=arm GOARM=5 go build -o dist/$APP_NAME -ldflags="$LDFLAGS" ./main.go
 # go build -o dist/$APP_NAME -ldflags="$LDFLAGS" main.go
 
-echo "Build completed with COMMIT=$GIT_COMMIT, date=$BUILD_DATE"
+echo "Build completed with VERSION=$NEW_VERSION, DATE=$BUILD_DATE, BRANCH=$GIT_BRANCH, COMMIT=$GIT_COMMIT."
