@@ -1,0 +1,41 @@
+version: 2
+project_name: curli
+builds:
+  - binary: curli
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - darwin
+      - linux
+      - freebsd
+      - windows
+    goarch:
+      - 386
+      - amd64
+      - arm
+      - arm64
+      - ppc64le
+      - s390x
+    goarm:
+      - 6
+      - 7
+
+archives:
+  - format_overrides:
+      - goos: windows
+        formats: ["zip"]
+
+release:
+  name_template: "{{.ProjectName}}-v{{.Version}}"
+
+signs:
+  - cmd: cosign
+    artifacts: checksum
+    output: true
+    certificate: "${artifact}.pem"
+    args:
+      - sign-blob
+      - "--output-signature=${signature}"
+      - "--output-certificate=${certificate}"
+      - "${artifact}"
+      - "--yes"

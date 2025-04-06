@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
 	"os/exec"
 	"strings"
@@ -12,19 +11,18 @@ import (
 
 	"github.com/trinhminhtriet/curli/args"
 	"github.com/trinhminhtriet/curli/formatter"
-	"golang.org/x/crypto/ssh/terminal"
+	"golang.org/x/term"
 )
 
 var (
-	commit  = "0000000"
-	version = "v0.0.0-LOCAL"
-	date    = "0000-00-00T00:00:00Z"
+	VERSION = "v0.0.0-LOCAL"
+	DATE    = "0000-00-00T00:00:00Z"
 )
 
 func main() {
 	// handle `curli version` separately from `curl --version`
 	if len(os.Args) == 2 && os.Args[1] == "version" {
-		fmt.Printf("curli %s (%s)\n", version, date)
+		fmt.Printf("curli %s (%s)\n", VERSION, DATE)
 		os.Exit(0)
 		return
 	}
@@ -77,7 +75,7 @@ func main() {
 		stdout = &formatter.HelpAdapter{Out: stdout, CmdName: os.Args[0]}
 	} else {
 		isForm := opts.Has("F")
-		if pretty || terminal.IsTerminal(stdoutFd) {
+		if pretty || term.IsTerminal(stdoutFd) {
 			inputWriter = &formatter.JSON{
 				Out:    inputWriter,
 				Scheme: scheme,
@@ -91,7 +89,7 @@ func main() {
 			// Filter out binary output.
 			stdout = &formatter.BinaryFilter{Out: stdout}
 		}
-		if pretty || terminal.IsTerminal(stderrFd) {
+		if pretty || term.IsTerminal(stderrFd) {
 			// If stderr is not redirected, output headers.
 			if !quiet {
 				opts = append(opts, "-v")
@@ -101,14 +99,13 @@ func main() {
 				Out:    stderr,
 				Scheme: scheme,
 			}
-
 		}
 		hasInput := true
 		if data := opts.Val("d"); data != "" {
 			// If data is provided via -d, read it from there for the verbose mode.
 			// XXX handle the @filename case.
 			inputWriter.Write([]byte(data))
-		} else if !terminal.IsTerminal(stdinFd) {
+		} else if !term.IsTerminal(stdinFd) {
 			// If something is piped in to the command, tell curl to use it as input.
 			opts = append(opts, "-d@-")
 			// Tee the stdin to the buffer used show the posted data in verbose mode.
@@ -146,8 +143,8 @@ func main() {
 		Verbose: verbose,
 		Post:    input,
 	}
-	if (opts.Has("I") || opts.Has("head")) && terminal.IsTerminal(stdoutFd) {
-		cmd.Stdout = ioutil.Discard
+	if (opts.Has("I") || opts.Has("head")) && term.IsTerminal(stdoutFd) {
+		cmd.Stdout = io.Discard
 	}
 	status := 0
 	if err := cmd.Run(); err != nil {
