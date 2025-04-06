@@ -12,15 +12,23 @@ upgrade:
 build:
 	CGO_ENABLED=0 go build \
 	-ldflags "-s -w -X '${PACKAGE}/VERSION=${VERSION}' -X '${PACKAGE}/DATE=${DATE}'" \
-	-a -tags netgo -o bin/${NAME} main.go
+	-a -tags netgo -o dist/${NAME} main.go
 
 build-and-link:
 	go build \
 		-ldflags "-s -w -X '${PACKAGE}/VERSION=${VERSION}' -X '${PACKAGE}/DATE=${DATE}'" \
-	-a -tags netgo -o bin/${NAME} main.go
-	ln -s ${PWD}/bin/${NAME} /usr/local/bin/${NAME}
+	-a -tags netgo -o dist/${NAME} main.go
+	ln -s ${PWD}/dist/${NAME} /usr/local/bin/${NAME}
 
 release:
-	git tag ${VERSION} && git push origin ${VERSION}
+	goreleaser build --clean --snapshot --single-target
+
+release-all:
+	goreleaser build --clean --snapshot
+
+link:
+  	# Have to check verion of folder name _darwin_amd64_v1
+	ln -sf ${PWD}/dist/${NAME}_darwin_amd64_v1/${NAME} /usr/local/bin/${NAME}
+	which ${NAME}
 
 .PHONY: default tidy build build-all build-and-link release

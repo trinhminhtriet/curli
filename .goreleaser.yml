@@ -8,7 +8,6 @@ builds:
       - darwin
       - linux
       - freebsd
-      - windows
     goarch:
       - 386
       - amd64
@@ -19,11 +18,6 @@ builds:
     goarm:
       - 6
       - 7
-
-archives:
-  - format_overrides:
-      - goos: windows
-        formats: ["zip"]
 
 release:
   name_template: "{{.ProjectName}}-v{{.Version}}"

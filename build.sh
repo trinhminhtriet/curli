@@ -39,7 +39,7 @@ LDFLAGS="-s -w \
 "
 
 mkdir -p bin
-# GOOS=windows GOARCH=arm GOARM=5 go build -o bin/$APP_NAME -ldflags="$LDFLAGS" ./main.go
-go build -o bin/$APP_NAME -ldflags="$LDFLAGS" main.go
+# GOOS=windows GOARCH=arm GOARM=5 go build -o dist/$APP_NAME -ldflags="$LDFLAGS" ./main.go
+go build -o dist/$APP_NAME -ldflags="$LDFLAGS" main.go
 
 echo "Build completed with COMMIT=$GIT_COMMIT, date=$BUILD_DATE"
