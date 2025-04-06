@@ -22,6 +22,20 @@
 
 Download a [binary package](https://github.com/trinhminhtriet/curli/releases)
 
+### Build
+
+Build with [goreleaser](https://goreleaser.com) to test that all platforms compile properly.
+
+```sh
+goreleaser build --clean --snapshot
+```
+
+Or for your current platform only.
+
+```sh
+goreleaser build --clean --snapshot --single-target
+```
+
 ## 💡 Usage
 
 ```sh
