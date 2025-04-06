@@ -11,18 +11,14 @@ import (
 
 	"github.com/trinhminhtriet/curli/args"
 	"github.com/trinhminhtriet/curli/formatter"
+	"github.com/trinhminhtriet/curli/internal"
 	"golang.org/x/term"
-)
-
-var (
-	VERSION = "v0.0.0-LOCAL"
-	DATE    = "0000-00-00T00:00:00Z"
 )
 
 func main() {
 	// handle `curli version` separately from `curl --version`
 	if len(os.Args) == 2 && os.Args[1] == "version" {
-		fmt.Printf("curli %s (%s)\n", VERSION, DATE)
+		fmt.Printf("curli %s (%s)\n", internal.VERSION, internal.DATE)
 		os.Exit(0)
 		return
 	}

@@ -4,6 +4,8 @@ builds:
   - binary: curli
     env:
       - CGO_ENABLED=0
+      - APP_NAME=curli
+      - AUTHOR_USERNAME=trinhminhtriet
     goos:
       - darwin
       - linux
@@ -18,6 +20,10 @@ builds:
     goarm:
       - 6
       - 7
+    ldflags:
+      - -s -w
+      - -X "github.com/${AUTHOR_USERNAME}/${APP_NAME}/internal.VERSION={{.Version}}"
+      - -X "github.com/${AUTHOR_USERNAME}/${APP_NAME}/internal.DATE={{.Date}}"
 
 release:
   name_template: "{{.ProjectName}}-v{{.Version}}"
