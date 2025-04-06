@@ -22,7 +22,7 @@
 
 Download a [binary package](https://github.com/trinhminhtriet/curli/releases)
 
-### Build
+### Build with goreleaser
 
 Build with [goreleaser](https://goreleaser.com) to test that all platforms compile properly.
 
@@ -36,7 +36,22 @@ Or for your current platform only.
 goreleaser build --clean --snapshot --single-target
 ```
 
+### Build Docker image
+
+```sh
+docker build -t trinhminhtriet/curli .
+```
+
 ## 💡 Usage
+
+### Docker
+
+```sh
+docker run --rm -it trinhminhtriet/curli [CURL_OPTIONS...] [METHOD] URL [ITEM [ITEM]]
+
+docker run --rm -it trinhminhtriet/curli version
+docker run --rm -it trinhminhtriet/curli -I https://github.com
+```
 
 ```sh
 Synopsis:
