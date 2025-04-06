@@ -1,6 +1,8 @@
 package internal
 
 var (
-	VERSION = "v0.0.0-LOCAL"
-	DATE    = "0000-00-00T00:00:00Z"
+	VERSION = ""
+	DATE    = "2025-04-06T16:19:32Z"
 )
+
+
