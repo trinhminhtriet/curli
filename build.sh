@@ -24,7 +24,7 @@ fi
 VERSION_FILE_CONTENT="package internal
 
 var (
-\tVERSION = \"$VERSION\"
+\tVERSION = \"$NEW_VERSION\"
 \tDATE    = \"$BUILD_DATE\"
 )
 
