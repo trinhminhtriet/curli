@@ -1,4 +1,4 @@
-name: GoReleaser
+name: Release
 on:
   push:
     tags:
@@ -10,6 +10,7 @@ concurrency:
 
 permissions:
   contents: read
+  id-token: write
 
 jobs:
   goreleaser:
@@ -17,6 +18,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Unshallow
         run: git fetch --prune --unshallow
@@ -38,3 +41,4 @@ jobs:
           args: ${{ github.ref_type == 'tag' && 'release' || 'build --snapshot' }} --clean
         env:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
+          COSIGN_EXPERIMENTAL: 1

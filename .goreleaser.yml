@@ -39,3 +39,5 @@ signs:
       - "--output-certificate=${certificate}"
       - "${artifact}"
       - "--yes"
+    env:
+      - COSIGN_EXPERIMENTAL=1
