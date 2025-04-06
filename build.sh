@@ -16,13 +16,13 @@ GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 if [[ $GIT_BRANCH == "master" ]]; then
   TAG_NAME="v$NEW_VERSION"
 else
-  TAG_NAME="$NEW_VERSION-dev.$BUILD_DATE"
+  TAG_NAME="$NEW_VERSION-$GIT_BRANCH"
 fi
 
-git commit -m "Update version to $NEW_VERSION"
+# git commit -m "Update version to $NEW_VERSION"
 git tag -a $TAG_NAME -m "Tag version $TAG_NAME"
 git push origin $TAG_NAME
-git push origin master
+git push origin $GIT_BRANCH
 
 GIT_COMMIT=$(git rev-parse --short HEAD)
 
