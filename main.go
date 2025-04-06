@@ -133,22 +133,28 @@ func main() {
 	}
 	cmd := exec.Command("curl", opts...)
 	cmd.Stdin = stdin
-	cmd.Stdout = stdout
+
+	// Buffers for capturing output
+	var outBuf, errBuf bytes.Buffer
+
+	// Wrap stderr with HeaderCleaner -> errBuf
 	cmd.Stderr = &formatter.HeaderCleaner{
-		Out:     stderr,
+		Out:     &errBuf,
 		Verbose: verbose,
 		Post:    input,
 	}
+
+	// Handle --head with terminal stdout
 	if (opts.Has("I") || opts.Has("head")) && term.IsTerminal(stdoutFd) {
 		cmd.Stdout = io.Discard
+	} else {
+		cmd.Stdout = &outBuf
 	}
+
 	status := 0
 	if err := cmd.Run(); err != nil {
 		switch err := err.(type) {
 		case *exec.ExitError:
-			if err.Stderr != nil {
-				fmt.Fprint(stderr, string(err.Stderr))
-			}
 			if ws, ok := err.ProcessState.Sys().(syscall.WaitStatus); ok {
 				status = ws.ExitStatus()
 			}
@@ -156,6 +162,11 @@ func main() {
 			fmt.Fprint(stderr, err)
 		}
 	}
+
+	// Print stderr first, then stdout
+	io.Copy(stderr, &errBuf)
+	io.Copy(stdout, &outBuf)
+
 	os.Exit(status)
 }
 
