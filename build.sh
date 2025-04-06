@@ -5,7 +5,8 @@ APP_NAME="curli"
 BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 PACKAGE_NAME=github.com/trinhminhtriet/$APP_NAME
 
-CURRENT_VERSION="$(git describe --tags --abbrev=0)"
+CURRENT_TAG_NAME="$(git describe --tags --abbrev=0)"
+CURRENT_VERSION="${CURRENT_TAG_NAME//v/}"
 
 IFS='.' read -r major minor patch <<<"$CURRENT_VERSION"
 echo "Current version: $CURRENT_VERSION"
@@ -27,7 +28,7 @@ git push origin $GIT_BRANCH
 GIT_COMMIT=$(git rev-parse --short HEAD)
 
 echo "New version: $NEW_VERSION"
-echo "Tag name: $TAG_NAME"
+echo "New tag name: $TAG_NAME"
 echo "Git branch: $GIT_BRANCH"
 echo "Build date: $BUILD_DATE"
 
